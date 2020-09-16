@@ -1,0 +1,101 @@
+---
+title: "Penguin sex and weight in different penguin populations & species (Palmer Archipelago - Anvers Island)"
+author: "Bram Schouten"
+date: "9/16/2020"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<font size="12"> Background information about the data </font>
+
+The data, (reference: Gorman KB, Williams TD, Fraser WR (2014) Ecological Sexual Dimorphism and Environmental Variability within a Community of Antarctic Penguins (Genus Pygoscelis). PLoS ONE 9(3): e90081. doi:10.1371/journal.pone.0090081), used was retrieved from: https://www.kaggle.com/parulpandey/palmer-archipelago-antarctica-penguin-data
+Which was made public under a CC-0 license.
+
+<font size="12"> Aim of the analysis </font>
+
+From this data the weight, sex, species and island where the penguin was measured were interrogated and comparitively plotted in the form a a boxplot.
+
+1.The pengiun data (.CSV) is placed into a data.frame, named 'alldata'
+```{r alldata}
+
+alldata = read.table("penguins_lter.csv", header = TRUE, sep = ",")
+
+```
+
+2.Relevant columns, sex and weight are excised into a simpler data frame, 'selectdata'
+```{r selectdata}
+
+selectdata = data.frame("sex" = alldata$Sex, "BodyMassGram" = alldata$Body.Mass..g.)
+```
+
+3.Used this data.frame and columns from 'alldata' to make lists of booleans '*_check', important for filtering the weight column in 'alldata' later
+```{r check}
+male_check = selectdata$sex == 'MALE'
+
+bisceo_check = alldata$Island == 'Biscoe'
+
+torgersen_check = alldata$Island == 'Torgersen'
+
+dream_check = alldata$Island == 'Dream'
+
+female_check = selectdata$sex == 'FEMALE'
+
+adelie_check = alldata$Species == 'Adelie Penguin (Pygoscelis adeliae)'
+
+chinstrap_check = alldata$Species == 'Chinstrap penguin (Pygoscelis antarctica)'
+
+gentoo_check = alldata$Species == 'Gentoo penguin (Pygoscelis papua)'
+```
+
+4. the column in 'alldata' containing the weights (in grams) are placed into vectors according to the sex - island - species [e.g. male_check & dream_check & adelie_check] 
+```{r weight}
+adelie_dream_male_weight = selectdata$BodyMassGram[male_check & dream_check & adelie_check]
+adelie_dream_female_weight = selectdata$BodyMassGram[female_check & dream_check & adelie_check]
+
+adelie_biscoe_male_weight = selectdata$BodyMassGram[male_check & bisceo_check & adelie_check]
+adelie_biscoe_female_weight = selectdata$BodyMassGram[female_check & bisceo_check & adelie_check]
+
+adelie_torgersen_male_weight = selectdata$BodyMassGram[male_check & torgersen_check & adelie_check]
+adelie_torgersen_female_weight = selectdata$BodyMassGram[female_check & torgersen_check & adelie_check]
+
+chinstrap_dream_male_weight = selectdata$BodyMassGram[male_check & dream_check & chinstrap_check]
+chinstrap_dream_female_weight = selectdata$BodyMassGram[female_check & dream_check & chinstrap_check]
+
+chinstrap_biscoe_male_weight = selectdata$BodyMassGram[male_check & bisceo_check & chinstrap_check]
+chinstrap_biscoe_female_weight = selectdata$BodyMassGram[female_check & bisceo_check & chinstrap_check]
+
+chinstrap_torgersen_male_weight = selectdata$BodyMassGram[male_check & torgersen_check & chinstrap_check]
+chinstrap_torgersen_female_weight = selectdata$BodyMassGram[female_check & torgersen_check & chinstrap_check]
+
+gentoo_dream_male_weight = selectdata$BodyMassGram[male_check & dream_check & gentoo_check]
+gentoo_dream_female_weight = selectdata$BodyMassGram[female_check & dream_check & gentoo_check]
+
+gentoo_biscoe_male_weight = selectdata$BodyMassGram[male_check & bisceo_check & gentoo_check]
+gentoo_biscoe_female_weight = selectdata$BodyMassGram[female_check & bisceo_check & gentoo_check]
+
+gentoo_torgersen_male_weight = selectdata$BodyMassGram[male_check & torgersen_check & gentoo_check]
+gentoo_torgersen_female_weight = selectdata$BodyMassGram[female_check & torgersen_check & gentoo_check]
+```
+
+<font size="12"> Plotting data in boxplot </font>
+
+These vectors were plotted in a single boxplot, the boxes are coloured inaccordance with the sex, more information was put on the Y-axis.
+```{r boxplot, echo=FALSE}
+par(mar=c(5,6,4,1)+1.6)
+
+boxplot(adelie_dream_male_weight, adelie_dream_female_weight, adelie_torgersen_male_weight, adelie_torgersen_female_weight, adelie_biscoe_male_weight, adelie_biscoe_female_weight,gentoo_dream_male_weight, gentoo_dream_female_weight, gentoo_torgersen_male_weight, gentoo_torgersen_female_weight, gentoo_biscoe_male_weight, gentoo_biscoe_female_weight,chinstrap_dream_male_weight, chinstrap_dream_female_weight, chinstrap_torgersen_male_weight, chinstrap_torgersen_female_weight, chinstrap_biscoe_male_weight, chinstrap_biscoe_female_weight, col=c("blue","pink","blue","pink","blue","pink","blue","pink","blue","pink","blue","pink","blue","pink","blue","pink","blue","pink")
+        ,main = "boxplot of male and female penguin weight"
+        , names = c("adelie dream male","adelie dream female","adelie torgersen male",
+                    "adelie torgersen female","adelie biscoe male","adelie biscoe female","gentoo dream male","gentoo dream female","gentoo torgersen male",
+                    "gentoo torgersen female","gentoo biscoe male","gentoo biscoe female","chinstrap dream male","chinstrap dream female","chinstrap torgersen male",
+                    "chinstrap torgersen female","chinstrap biscoe male","chinstrap biscoe female"),
+        las = 1, xlab = ('weight in grams (g)') , pch=20, horizontal = 1, cex.axis=0.7
+        )
+```
+
+<font size="12"> What does the boxplot show? </font>
+
+Males tend to be larger than females across all species of penguin in this sample of penguins. Only gentoo penguins measured were residing on Biscoe island and female. Chinstrap penguins, males and females, were only found on Dream island.
