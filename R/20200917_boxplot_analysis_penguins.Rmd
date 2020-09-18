@@ -5,11 +5,13 @@ date: "9/16/2020"
 output: github_document
 ---
 
+# Header 1
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-<font size="12"> Background information about the data </font>
+## Header 2 Background information about the data </font>
 
 The data, (reference: Gorman KB, Williams TD, Fraser WR (2014) Ecological Sexual Dimorphism and Environmental Variability within a Community of Antarctic Penguins (Genus Pygoscelis). PLoS ONE 9(3): e90081. doi:10.1371/journal.pone.0090081), used was retrieved from: https://www.kaggle.com/parulpandey/palmer-archipelago-antarctica-penguin-data
 Which was made public under a CC-0 license.
@@ -24,8 +26,8 @@ alldata = read.table("../data/penguins_lter.csv", header = TRUE, sep = ",")
 ```
 
 2.Relevant columns, sex and weight are excised into a simpler data frame, 'selectdata'
-```{r selectdata}
 
+```{r selectdata}
 selectdata = data.frame("sex" = alldata$Sex, "BodyMassGram" = alldata$Body.Mass..g.)
 ```
 
