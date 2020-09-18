@@ -20,9 +20,7 @@ From this data the weight, sex, species and island where the penguin was measure
 
 1.The pengiun data (.CSV) is placed into a data.frame, named 'alldata'
 ```{r alldata}
-
-alldata = read.table("penguins_lter.csv", header = TRUE, sep = ",")
-
+alldata = read.table("../data/penguins_lter.csv", header = TRUE, sep = ",")
 ```
 
 2.Relevant columns, sex and weight are excised into a simpler data frame, 'selectdata'
